@@ -57,6 +57,11 @@ const userSchema = mongoose.Schema(
             required: false,
             default: "+84 123 456 7890",
         },
+        position: {
+            type: String,
+            required: false,
+            default: "Nhân viên",
+        },
     },
     { timestamps: true }
 );

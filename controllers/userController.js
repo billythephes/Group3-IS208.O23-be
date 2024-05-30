@@ -11,7 +11,7 @@ const generateToken = (id) => {
 
 // Register user
 const createUser = asyncHandler(async (req, res) => {
-    const { identity_num, name, email, password, dateOfBirth, gender, photo, phone} = req.body;
+    const { identity_num, name, email, password, dateOfBirth, gender, photo, phone } = req.body;
 
     if (!name || !email || !password || !identity_num || !dateOfBirth || !gender) {
         res.status(400);
@@ -144,18 +144,36 @@ const getLoginStatus = asyncHandler(async (req, res) => {
     }
 });
 
-// Update user
+// Update user for admin
 const updateUser = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.user._id);
+    const user = await User.findById(req.params.id);
 
     if (user) {
-        const { name, phone, dateOfBirth, gender, photo } = user;
+        const { name, phone, dateOfBirth, gender, photo, identity_num } = user;
         user.name = req.body.name || name;
         user.phone = req.body.phone || phone;
         user.dateOfBirth = req.body.dateOfBirth || dateOfBirth;
         user.gender = req.body.gender || gender;
         user.photo = req.body.photo || photo;
+        user.identity_num = req.body.identity_num || identity_num;
 
+        const updatedUser = await user.save();
+        res.status(200).json(updatedUser);
+    } else {
+        res.status(404);
+        throw new Error("Không tìm thấy người dùng");
+    }
+});
+
+// Update user for user
+const updateUserInfo = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user._id);
+
+    if (user) {
+        const { name, phone, photo } = user;
+        user.name = req.body.name || name;
+        user.phone = req.body.phone || phone;
+        user.photo = req.body.photo || photo;
         const updatedUser = await user.save();
         res.status(200).json(updatedUser);
     } else {
@@ -203,4 +221,5 @@ module.exports = {
     updateUser,
     deleteUser,
     updatePhoto,
+    updateUserInfo,
 };
