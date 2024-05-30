@@ -164,6 +164,19 @@ const updateUser = asyncHandler(async (req, res) => {
     }
 });
 
+// Delete user
+const deleteUser = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id);
+
+    if (user) {
+        await user.remove();
+        res.json({ message: "Người dùng đã được xóa!" });
+    } else {
+        res.status(404);
+        throw new Error("Không tìm thấy người dùng");
+    }
+});
+
 // Update user image
 const updatePhoto = asyncHandler(async (req, res) => {
     const { photo } = req.body;
@@ -188,5 +201,6 @@ module.exports = {
     getUser,
     getLoginStatus,
     updateUser,
+    deleteUser,
     updatePhoto,
 };

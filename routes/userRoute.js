@@ -9,6 +9,7 @@ const {
     getLoginStatus,
     updateUser,
     updatePhoto,
+    deleteUser,
 } = require("../controllers/userController");
 const { protect, adminOnly } = require("../middleware/authMiddleware");
 
@@ -19,6 +20,7 @@ router.get("/getUser", protect, getUser);
 router.get("/getUsers", protect, adminOnly, getUsers);
 router.get("/getLoginStatus", getLoginStatus);
 router.patch("/updateUser", protect, adminOnly, updateUser);
+router.delete("/deleteUser/:id", protect, adminOnly, deleteUser);
 router.patch("/updatePhoto", protect, updatePhoto);
 
 module.exports = router;
