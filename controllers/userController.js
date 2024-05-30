@@ -149,13 +149,14 @@ const updateUser = asyncHandler(async (req, res) => {
     const user = await User.findById(req.params.id);
 
     if (user) {
-        const { name, phone, dateOfBirth, gender, photo, identity_num } = user;
+        const { name, phone, dateOfBirth, gender, photo, identity_num, position } = user;
         user.name = req.body.name || name;
         user.phone = req.body.phone || phone;
         user.dateOfBirth = req.body.dateOfBirth || dateOfBirth;
         user.gender = req.body.gender || gender;
         user.photo = req.body.photo || photo;
         user.identity_num = req.body.identity_num || identity_num;
+        user.position = req.body.position || position;
 
         const updatedUser = await user.save();
         res.status(200).json(updatedUser);
