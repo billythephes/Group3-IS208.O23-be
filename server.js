@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const userRoute = require("./routes/userRoute");
 
 const app = express();
 
@@ -21,6 +22,8 @@ app.use(
 app.get("/", (req, res) => {
   res.send("Home Page");
 });
+
+app.use("/api/users", userRoute);
 
 const PORT = process.env.PORT || 5000;
 
