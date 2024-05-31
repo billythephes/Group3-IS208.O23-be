@@ -5,6 +5,7 @@ const {
     loginUser,
     logoutUser,
     getUser,
+    getUserById,
     getUsers,
     getLoginStatus,
     updateUser,
@@ -18,6 +19,7 @@ router.post("/create", protect, adminOnly, createUser);
 router.post("/login", loginUser);
 router.get("/logout", logoutUser);
 router.get("/getUser", protect, getUser);
+router.get("/getUserByID/:id", protect, adminOnly, getUserById);
 router.get("/getUsers", protect, adminOnly, getUsers);
 router.get("/getLoginStatus", getLoginStatus);
 router.patch("/updateUser/:id", protect, adminOnly, updateUser);

@@ -11,7 +11,7 @@ const generateToken = (id) => {
 
 // Register user
 const createUser = asyncHandler(async (req, res) => {
-    const { identity_num, name, email, password, dateOfBirth, gender, photo, phone } = req.body;
+    const { identity_num, name, email, password, dateOfBirth, gender, photo, phone, position } = req.body;
 
     if (!name || !email || !password || !identity_num || !dateOfBirth || !gender) {
         res.status(400);
@@ -41,6 +41,7 @@ const createUser = asyncHandler(async (req, res) => {
         gender,
         photo,
         phone,
+        position,
     });
 
     if (user) {
@@ -113,6 +114,18 @@ const logoutUser = asyncHandler(async (req, res) => {
 // Get users
 const getUser = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id).select("-password");
+
+    if (user) {
+        res.status(200).json(user);
+    } else {
+        res.status(404);
+        throw new Error("Không tìm thấy người dùng");
+    }
+});
+
+// Get user by ID
+const getUserById = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id).select("-password");
 
     if (user) {
         res.status(200).json(user);
@@ -218,6 +231,7 @@ module.exports = {
     logoutUser,
     getUsers,
     getUser,
+    getUserById,
     getLoginStatus,
     updateUser,
     deleteUser,
