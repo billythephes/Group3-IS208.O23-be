@@ -32,7 +32,20 @@ const getNotifications = asyncHandler(async (req, res) => {
     res.json(notifications);
 });
 
+const deleteNotification = asyncHandler(async (req, res) => {
+    const notification = await Notification.findById(req.params.id);
+
+    if (notification) {
+        await notification.remove();
+        res.json({ message: "Thông báo đã được xóa" });
+    } else {
+        res.status(404);
+        throw new Error("Thông báo không tìm thấy");
+    }
+});
+
 module.exports = {
     createNotification,
-    getNotifications
+    getNotifications,
+    deleteNotification,
 };
